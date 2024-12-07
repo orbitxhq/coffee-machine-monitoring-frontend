@@ -1,30 +1,30 @@
-import 'package:best_flutter_ui_templates/orbitx/api/get_recent_shot.dart';
-import 'package:best_flutter_ui_templates/orbitx/my_diary/components/recent_shot_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:best_flutter_ui_templates/orbitx/components/machine_usage_chart.dart';
 import 'package:best_flutter_ui_templates/orbitx/orbitx_theme.dart';
+import 'package:best_flutter_ui_templates/orbitx/api/fetch_hourly_stats.dart';
 import 'package:intl/intl.dart';
 
-class RecentTemperatureShotDashboardView extends StatefulWidget {
+class TemperatureDashboardView extends StatefulWidget {
   final AnimationController? animationController;
   final Animation<double>? animation;
 
-  const RecentTemperatureShotDashboardView(
+  const TemperatureDashboardView(
       {Key? key, this.animationController, this.animation})
       : super(key: key);
 
   @override
-  _RecentTemperatureShotDashboardViewState createState() =>
-      _RecentTemperatureShotDashboardViewState();
+  _TemperatureDashboardViewState createState() =>
+      _TemperatureDashboardViewState();
 }
 
-class _RecentTemperatureShotDashboardViewState
-    extends State<RecentTemperatureShotDashboardView> {
-  late Future<RecentShotStats> recentShotStats;
+class _TemperatureDashboardViewState extends State<TemperatureDashboardView> {
+  late Future<HourlyStats> hourlyStats;
 
   @override
   void initState() {
     super.initState();
-    recentShotStats = fetchRecentShotStats('machine123');
+    final currentDate = DateFormat('yyyy-MM-dd').format(DateTime.now());
+    hourlyStats = fetchHourlyStats('machine123', currentDate);
   }
 
   @override
@@ -82,8 +82,8 @@ class _RecentTemperatureShotDashboardViewState
                               Padding(
                                 padding: const EdgeInsets.symmetric(
                                     vertical: 16, horizontal: 16),
-                                child: FutureBuilder<RecentShotStats>(
-                                  future: recentShotStats,
+                                child: FutureBuilder<HourlyStats>(
+                                  future: hourlyStats,
                                   builder: (context, snapshot) {
                                     if (snapshot.connectionState ==
                                         ConnectionState.waiting) {
@@ -101,9 +101,8 @@ class _RecentTemperatureShotDashboardViewState
                                     final stats = snapshot.data!;
 
                                     // Data is successfully loaded
-                                    return RecentShotStatsChart(
+                                    return MachineUsageChart(
                                       points: stats.info['temperature'],
-                                      timestamps: stats.loggedAt,
                                       animationController:
                                           widget.animationController,
                                       animation: widget.animation,

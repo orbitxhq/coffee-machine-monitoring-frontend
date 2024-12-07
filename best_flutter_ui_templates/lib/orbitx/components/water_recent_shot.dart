@@ -1,5 +1,5 @@
 import 'package:best_flutter_ui_templates/orbitx/api/get_recent_shot.dart';
-import 'package:best_flutter_ui_templates/orbitx/my_diary/components/recent_shot_chart.dart';
+import 'package:best_flutter_ui_templates/orbitx/components/recent_shot_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:best_flutter_ui_templates/orbitx/orbitx_theme.dart';
 import 'package:intl/intl.dart';

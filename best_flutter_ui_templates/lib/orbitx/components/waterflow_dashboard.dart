@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:best_flutter_ui_templates/orbitx/my_diary/components/machine_usage_chart.dart';
+import 'package:best_flutter_ui_templates/orbitx/components/machine_usage_chart.dart';
 import 'package:best_flutter_ui_templates/orbitx/orbitx_theme.dart';
 import 'package:best_flutter_ui_templates/orbitx/api/fetch_hourly_stats.dart';
 import 'package:intl/intl.dart';

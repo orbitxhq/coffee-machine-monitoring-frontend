@@ -1,4 +1,4 @@
-import 'package:best_flutter_ui_templates/orbitx/my_diary/components/temperature_dashboard.dart';
+import 'package:best_flutter_ui_templates/orbitx/components/temperature_dashboard.dart';
 import 'package:best_flutter_ui_templates/orbitx/ui_view/area_list_view.dart';
 import 'package:best_flutter_ui_templates/orbitx/ui_view/title_view.dart';
 import 'package:best_flutter_ui_templates/orbitx/ui_view/workout_view.dart';

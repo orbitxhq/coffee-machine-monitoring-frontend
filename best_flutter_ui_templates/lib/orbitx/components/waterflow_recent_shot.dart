@@ -1,30 +1,30 @@
+import 'package:best_flutter_ui_templates/orbitx/api/get_recent_shot.dart';
+import 'package:best_flutter_ui_templates/orbitx/components/recent_shot_chart.dart';
 import 'package:flutter/material.dart';
-import 'package:best_flutter_ui_templates/orbitx/my_diary/components/machine_usage_chart.dart';
 import 'package:best_flutter_ui_templates/orbitx/orbitx_theme.dart';
-import 'package:best_flutter_ui_templates/orbitx/api/fetch_hourly_stats.dart';
 import 'package:intl/intl.dart';
 
-class TemperatureDashboardView extends StatefulWidget {
+class RecentWaterflowShotDashboardView extends StatefulWidget {
   final AnimationController? animationController;
   final Animation<double>? animation;
 
-  const TemperatureDashboardView(
+  const RecentWaterflowShotDashboardView(
       {Key? key, this.animationController, this.animation})
       : super(key: key);
 
   @override
-  _TemperatureDashboardViewState createState() =>
-      _TemperatureDashboardViewState();
+  _RecentWaterflowShotDashboardViewState createState() =>
+      _RecentWaterflowShotDashboardViewState();
 }
 
-class _TemperatureDashboardViewState extends State<TemperatureDashboardView> {
-  late Future<HourlyStats> hourlyStats;
+class _RecentWaterflowShotDashboardViewState
+    extends State<RecentWaterflowShotDashboardView> {
+  late Future<RecentShotStats> recentShotStats;
 
   @override
   void initState() {
     super.initState();
-    final currentDate = DateFormat('yyyy-MM-dd').format(DateTime.now());
-    hourlyStats = fetchHourlyStats('machine123', currentDate);
+    recentShotStats = fetchRecentShotStats('machine123');
   }
 
   @override
@@ -69,7 +69,7 @@ class _TemperatureDashboardViewState extends State<TemperatureDashboardView> {
                                 padding: const EdgeInsets.symmetric(
                                     vertical: 16, horizontal: 16),
                                 child: Text(
-                                  'Temperature',
+                                  'Water Flow',
                                   style: TextStyle(
                                     fontFamily: ORBITXTheme.fontName,
                                     fontWeight: FontWeight.bold,
@@ -82,8 +82,8 @@ class _TemperatureDashboardViewState extends State<TemperatureDashboardView> {
                               Padding(
                                 padding: const EdgeInsets.symmetric(
                                     vertical: 16, horizontal: 16),
-                                child: FutureBuilder<HourlyStats>(
-                                  future: hourlyStats,
+                                child: FutureBuilder<RecentShotStats>(
+                                  future: recentShotStats,
                                   builder: (context, snapshot) {
                                     if (snapshot.connectionState ==
                                         ConnectionState.waiting) {
@@ -101,8 +101,9 @@ class _TemperatureDashboardViewState extends State<TemperatureDashboardView> {
                                     final stats = snapshot.data!;
 
                                     // Data is successfully loaded
-                                    return MachineUsageChart(
-                                      points: stats.info['temperature'],
+                                    return RecentShotStatsChart(
+                                      points: stats.info['waterflow'],
+                                      timestamps: stats.loggedAt,
                                       animationController:
                                           widget.animationController,
                                       animation: widget.animation,

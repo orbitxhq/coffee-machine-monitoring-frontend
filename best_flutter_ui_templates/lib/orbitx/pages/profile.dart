@@ -1,23 +1,21 @@
-import 'package:best_flutter_ui_templates/orbitx/components/temperature_recent_shot.dart';
-import 'package:best_flutter_ui_templates/orbitx/components/water_recent_shot.dart';
-import 'package:best_flutter_ui_templates/orbitx/components/waterflow_recent_shot.dart';
-
-import 'package:best_flutter_ui_templates/orbitx/ui_view/title_view.dart';
-import 'package:best_flutter_ui_templates/orbitx/orbitx_theme.dart';
-import 'package:best_flutter_ui_templates/orbitx/components/profile_banner_v2.dart';
 import 'package:best_flutter_ui_templates/orbitx/components/temperature_dashboard.dart';
-import 'package:best_flutter_ui_templates/orbitx/components/waterflow_dashboard.dart';
+import 'package:best_flutter_ui_templates/orbitx/ui_view/area_list_view.dart';
+import 'package:best_flutter_ui_templates/orbitx/ui_view/title_view.dart';
+import 'package:best_flutter_ui_templates/orbitx/ui_view/workout_view.dart';
 import 'package:flutter/material.dart';
 
-class HomeScreen extends StatefulWidget {
-  const HomeScreen({Key? key, this.animationController}) : super(key: key);
+import '../orbitx_theme.dart';
+
+class ProfileScreen extends StatefulWidget {
+  const ProfileScreen({Key? key, this.animationController}) : super(key: key);
 
   final AnimationController? animationController;
   @override
-  _HomeScreenState createState() => _HomeScreenState();
+  _ProfileScreenState createState() => _ProfileScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
+class _ProfileScreenState extends State<ProfileScreen>
+    with TickerProviderStateMixin {
   Animation<double>? topBarAnimation;
 
   List<Widget> listViews = <Widget>[];
@@ -57,85 +55,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     super.initState();
   }
 
-  void addAllListData() {
-    const int count = 9;
-
-    listViews.add(
-      TitleView(
-        titleTxt: 'Your Dashboard',
-        subTxt: 'Details',
-        animation: Tween<double>(begin: 0.0, end: 1.0).animate(CurvedAnimation(
-            parent: widget.animationController!,
-            curve:
-                Interval((1 / count) * 0, 1.0, curve: Curves.fastOutSlowIn))),
-        animationController: widget.animationController!,
-      ),
-    );
-    listViews.add(
-      ProfileBannerView(
-        animation: Tween<double>(begin: 0.0, end: 1.0).animate(CurvedAnimation(
-            parent: widget.animationController!,
-            curve:
-                Interval((1 / count) * 1, 1.0, curve: Curves.fastOutSlowIn))),
-        animationController: widget.animationController!,
-      ),
-    );
-    listViews.add(
-      TitleView(
-        titleTxt: 'Recent Shot',
-        subTxt: 'Details',
-        animation: Tween<double>(begin: 0.0, end: 1.0).animate(CurvedAnimation(
-            parent: widget.animationController!,
-            curve:
-                Interval((1 / count) * 1, 1.0, curve: Curves.fastOutSlowIn))),
-        animationController: widget.animationController!,
-      ),
-    );
-    listViews.add(
-      RecentTemperatureShotDashboardView(
-        animation: Tween<double>(begin: 0.0, end: 1.0).animate(CurvedAnimation(
-            parent: widget.animationController!,
-            curve:
-                Interval((1 / count) * 1, 1.0, curve: Curves.fastOutSlowIn))),
-        animationController: widget.animationController!,
-      ),
-    );
-
-    listViews.add(
-      RecentWaterflowShotDashboardView(
-        animation: Tween<double>(begin: 0.0, end: 1.0).animate(CurvedAnimation(
-            parent: widget.animationController!,
-            curve:
-                Interval((1 / count) * 1, 1.0, curve: Curves.fastOutSlowIn))),
-        animationController: widget.animationController!,
-      ),
-    );
-
-    listViews.add(
-      RecentWaterShotDashboardView(
-        animation: Tween<double>(begin: 0.0, end: 1.0).animate(CurvedAnimation(
-            parent: widget.animationController!,
-            curve:
-                Interval((1 / count) * 1, 1.0, curve: Curves.fastOutSlowIn))),
-        animationController: widget.animationController!,
-      ),
-    );
-  }
-
-  Future<void> handleRefresh() async {
-    await Future.delayed(const Duration(seconds: 2));
-    setState(() {
-      listViews.clear();
-      addAllListData();
-    });
-    triggerChildRefresh();
-  }
-
-  void triggerChildRefresh() {
-    // Call any specific methods required for refreshing child widgets
-    // Assuming you have references or callbacks for child widgets
-    profileBannerKey.currentState?.triggerParentRefresh();
-  }
+  void addAllListData() {}
 
   Future<bool> getData() async {
     await Future<dynamic>.delayed(const Duration(milliseconds: 50));
@@ -167,24 +87,46 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
         if (!snapshot.hasData) {
           return const SizedBox();
-        } else {
-          return RefreshIndicator(
-            onRefresh: handleRefresh,
-            child: ListView.builder(
-              controller: scrollController,
-              padding: EdgeInsets.only(
-                top: AppBar().preferredSize.height +
-                    MediaQuery.of(context).padding.top +
-                    24,
-                bottom: 62 + MediaQuery.of(context).padding.bottom,
-              ),
-              itemCount: listViews.length,
-              scrollDirection: Axis.vertical,
-              itemBuilder: (BuildContext context, int index) {
-                widget.animationController?.forward();
-                return listViews[index];
-              },
+        } else if (listViews.isEmpty) {
+          // Show the fallback message when no data is available
+          return Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(
+                  Icons.construction,
+                  size: 100,
+                  color: ORBITXTheme.grey,
+                ),
+                const SizedBox(height: 16),
+                Text(
+                  'This feature is not available in development.',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontFamily: ORBITXTheme.fontName,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 18,
+                    color: ORBITXTheme.darkText,
+                  ),
+                ),
+              ],
             ),
+          );
+        } else {
+          return ListView.builder(
+            controller: scrollController,
+            padding: EdgeInsets.only(
+              top: AppBar().preferredSize.height +
+                  MediaQuery.of(context).padding.top +
+                  24,
+              bottom: 62 + MediaQuery.of(context).padding.bottom,
+            ),
+            itemCount: listViews.length,
+            scrollDirection: Axis.vertical,
+            itemBuilder: (BuildContext context, int index) {
+              widget.animationController?.forward();
+              return listViews[index];
+            },
           );
         }
       },
@@ -234,7 +176,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                               child: Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: Text(
-                                  'Home',
+                                  'Profile',
                                   textAlign: TextAlign.left,
                                   style: TextStyle(
                                     fontFamily: ORBITXTheme.fontName,

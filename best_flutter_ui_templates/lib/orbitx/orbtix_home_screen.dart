@@ -1,5 +1,6 @@
 import 'package:best_flutter_ui_templates/orbitx/models/tabIcon_data.dart';
 import 'package:best_flutter_ui_templates/orbitx/pages/history.dart';
+import 'package:best_flutter_ui_templates/orbitx/pages/profile.dart';
 import 'package:best_flutter_ui_templates/orbitx/pages/statistics.dart';
 import 'package:flutter/material.dart';
 import 'bottom_navigation_view/bottom_bar_view.dart';
@@ -80,7 +81,7 @@ class _ORBITXHomeScreenState extends State<ORBITXHomeScreen>
           // tabIconsList: tabIconsList,
           addClick: () {},
           changeIndex: (int index) {
-            if (index == 0 || index == 3) {
+            if (index == 0) {
               animationController?.reverse().then<dynamic>((data) {
                 if (!mounted) {
                   return;
@@ -108,6 +109,16 @@ class _ORBITXHomeScreenState extends State<ORBITXHomeScreen>
                 setState(() {
                   tabBody = StatisticsScreen(
                       animationController: animationController);
+                });
+              });
+            } else if (index == 3) {
+              animationController?.reverse().then<dynamic>((data) {
+                if (!mounted) {
+                  return;
+                }
+                setState(() {
+                  tabBody =
+                      ProfileScreen(animationController: animationController);
                 });
               });
             }

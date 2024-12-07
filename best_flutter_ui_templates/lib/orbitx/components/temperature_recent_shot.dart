@@ -1,24 +1,24 @@
 import 'package:best_flutter_ui_templates/orbitx/api/get_recent_shot.dart';
-import 'package:best_flutter_ui_templates/orbitx/my_diary/components/recent_shot_chart.dart';
+import 'package:best_flutter_ui_templates/orbitx/components/recent_shot_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:best_flutter_ui_templates/orbitx/orbitx_theme.dart';
 import 'package:intl/intl.dart';
 
-class RecentWaterflowShotDashboardView extends StatefulWidget {
+class RecentTemperatureShotDashboardView extends StatefulWidget {
   final AnimationController? animationController;
   final Animation<double>? animation;
 
-  const RecentWaterflowShotDashboardView(
+  const RecentTemperatureShotDashboardView(
       {Key? key, this.animationController, this.animation})
       : super(key: key);
 
   @override
-  _RecentWaterflowShotDashboardViewState createState() =>
-      _RecentWaterflowShotDashboardViewState();
+  _RecentTemperatureShotDashboardViewState createState() =>
+      _RecentTemperatureShotDashboardViewState();
 }
 
-class _RecentWaterflowShotDashboardViewState
-    extends State<RecentWaterflowShotDashboardView> {
+class _RecentTemperatureShotDashboardViewState
+    extends State<RecentTemperatureShotDashboardView> {
   late Future<RecentShotStats> recentShotStats;
 
   @override
@@ -69,7 +69,7 @@ class _RecentWaterflowShotDashboardViewState
                                 padding: const EdgeInsets.symmetric(
                                     vertical: 16, horizontal: 16),
                                 child: Text(
-                                  'Water Flow',
+                                  'Temperature',
                                   style: TextStyle(
                                     fontFamily: ORBITXTheme.fontName,
                                     fontWeight: FontWeight.bold,
@@ -102,7 +102,7 @@ class _RecentWaterflowShotDashboardViewState
 
                                     // Data is successfully loaded
                                     return RecentShotStatsChart(
-                                      points: stats.info['waterflow'],
+                                      points: stats.info['temperature'],
                                       timestamps: stats.loggedAt,
                                       animationController:
                                           widget.animationController,
